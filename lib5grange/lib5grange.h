@@ -1,3 +1,9 @@
+/* ***************************************/
+/* Copyright Notice                      */
+/* Copyright(c)2019 5G Range Consortium  */
+/* All rights Reserved                   */
+/*****************************************/
+
 #ifndef INCLUDED_LIB5GRANGE_H
 #define INCLUDED_LIB5GRANGE_H
 
