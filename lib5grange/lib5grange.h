@@ -209,6 +209,38 @@ namespace lib5grange {
             QAM256  //MCS 27
         };
 
+    constexpr float mcsToCodeRate[] =
+        {
+            0.04167,   //MCS 0 (filler)
+            0.04167,   //MCS 1
+            0.08333,   //MCS 2
+            0.12500,   //MCS 3
+            0.06250,   //MCS 4
+            0.20833,   //MCS 5
+            0.29167,   //MCS 6
+            0.37500,   //MCS 7
+            0.20833,   //MCS 8
+            0.25000,   //MCS 9
+            0.29167,   //MCS 10
+            0.37500,   //MCS 11
+            0.45833,   //MCS 12
+            0.54167,   //MCS 13
+            0.62500,   //MCS 14
+            0.75000,   //MCS 15
+            0.83333,   //MCS 16
+            0.58333,   //MCS 17
+            0.66667,   //MCS 18
+            0.75000,   //MCS 19
+            0.79167,   //MCS 20
+            0.87500,   //MCS 21
+            0.91667,   //MCS 22
+            0.75000,   //MCS 23
+            0.83333,   //MCS 24
+            0.87500,   //MCS 25
+            0.91667,   //MCS 26
+            0.95833    //MCS 27
+        };
+
     /**
      * @brief Transform any basic C type into bytes 
      * 
@@ -656,5 +688,24 @@ namespace lib5grange {
         macphy_ctl_.deserialize(bytes);
         pop_bytes(numID_, bytes);
     }
+
+    inline size_t
+    get_net_byte_capacity(float coderate, const MacPDU & pdu)
+    {
+        return ((get_bit_capacity(pdu)/8) * coderate);
+    };
+
+    inline size_t
+    get_net_byte_capacity(
+        size_t numID,
+        allocation_cfg_t allocation,
+        mimo_cfg_t mimo,
+        qammod_t mod,
+        float coderate)
+    {
+        return (get_bit_capacity(numID, allocation, mimo, mod)/8 * coderate);
+    }
+
+
 } /* namespace lib5grange */
 #endif /* INCLUDED_LIB5GRANGE_H */
