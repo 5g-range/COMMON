@@ -263,7 +263,7 @@ namespace lib5grange {
      * @param bytes : vector where the bytes data will be appended 
      */
     template <typename T>
-    void deserialize_vector(vector<T> & v, vector<uint8_t> & bytes){
+    inline void deserialize_vector(vector<T> & v, vector<uint8_t> & bytes){
         size_t num_elements;           
         pop_bytes(num_elements, bytes); // Retrieve the vector size
         v.resize(num_elements);         // space for the data
@@ -391,7 +391,7 @@ namespace lib5grange {
     * @param allocation: Struct with the configuration of the resource allocation (see: allocation_cfg_t).
     * @param mimo: Struct with the configuration of the MIMO (see: mimo_cfg_t).
     **/
-    size_t get_re_capacity(
+    inline size_t get_re_capacity(
         const size_t & numID,                 // Numerology ID
         const allocation_cfg_t & allocation,  // Allocation config struct
         const mimo_cfg_t & mimo);             // MIMO config struct
@@ -408,7 +408,7 @@ namespace lib5grange {
     *  @param mod: QAM modulation (QPSK, QAM16, QAM64 or QAM256).
     *  @return size_t 
     */
-    size_t get_bit_capacity(
+    inline size_t get_bit_capacity(
         const size_t & numID,
         const allocation_cfg_t & allocation,    
         const mimo_cfg_t & mimo,
@@ -433,7 +433,7 @@ namespace lib5grange {
     *   @param target_coderate: The target coderate for the tranmission.
     *   @param info_bits: Number of information bits to be sent.
     **/
-    size_t get_num_required_rb(
+    inline size_t get_num_required_rb(
         const size_t & numID,    // Numerology ID
         const mimo_cfg_t & mimo, // MIMO Onfiguration
         const qammod_t & mod,    // Modulation 
@@ -486,15 +486,15 @@ namespace lib5grange {
             MacPDU(vector<uint8_t> & bytes);
                       
             /** @brief Destroy the MacPDU object **/
-            ~MacPDU(){};
+            inline  ~MacPDU(){};
             
             /** Serializes the MacPDU object to a sequance of bytes **/
             void serialize(vector<uint8_t> & bytes);
            
     }; /* class MacPDU */
 
-        size_t
-    get_re_capacity(
+    size_t
+    inline get_re_capacity(
         const size_t & numID,                   // Numerology ID
         const allocation_cfg_t & allocation,    // Allocation config struct
         const mimo_cfg_t & mimo = {NONE, 1, 0}) // MIMO config struct (defaults to SISO)
@@ -523,7 +523,7 @@ namespace lib5grange {
      * @return size_t 
      */
     size_t
-    get_re_capacity(const MacPDU & pdu) 
+    inline get_re_capacity(const MacPDU & pdu) 
     {
         const auto & numID = pdu.numID_;
         const auto & allocation = pdu.allocation_;
@@ -532,7 +532,7 @@ namespace lib5grange {
     }
 
     size_t
-    get_bit_capacity(
+    inline get_bit_capacity(
         const size_t & numID,
         const allocation_cfg_t & allocation,    
         const mimo_cfg_t & mimo,
@@ -544,7 +544,7 @@ namespace lib5grange {
     }
 
     size_t
-    get_bit_capacity(const MacPDU & pdu)
+    inline get_bit_capacity(const MacPDU & pdu)
     {   
         const auto & numID = pdu.numID_;
         const auto & allocation = pdu.allocation_;
@@ -555,7 +555,7 @@ namespace lib5grange {
     }
 
     size_t
-    get_bit_capacity(
+    inline get_bit_capacity(
         const size_t & numRE, // Number of resource elements
         const qammod_t & mod) // Modulation
     {
@@ -563,7 +563,7 @@ namespace lib5grange {
     }
 
     size_t 
-    get_num_required_rb(
+    inline get_num_required_rb(
         const size_t & numID,    // Numerology ID
         const mimo_cfg_t & mimo, // MIMO Onfiguration
         const qammod_t & mod,    // Modulation 
@@ -586,7 +586,7 @@ namespace lib5grange {
         return numRB;
     } /* get_mum_required_rb */ 
 
-    MacPDU::MacPDU(){
+    inline MacPDU::MacPDU(){
         numID_ = 0;
         snr_avg_ = 10;
 		rankIndicator_ = 10;
@@ -599,7 +599,7 @@ namespace lib5grange {
         control_symbols_[1] = {};
     }
 
-    MacPDU::MacPDU(
+    inline MacPDU::MacPDU(
         unsigned numID,                 // Numerology ID
         macphyctl_t phyctl,             // phyctl MAC/PHY control struct
         allocation_cfg_t allocation,    // allocation config
@@ -616,7 +616,7 @@ namespace lib5grange {
         
     } /*MacPDU()*/
 
-    void
+    inline void
     MacPDU::serialize(vector<uint8_t> & bytes)
     {
         push_bytes(bytes, numID_);
@@ -628,24 +628,24 @@ namespace lib5grange {
 		push_bytes(bytes, rankIndicator_);
         // Vectors
         serialize_vector(bytes, mac_data_);
-        serialize_vector(bytes, coded_data_);
-        serialize_vector(bytes, symbols_);
-        serialize_vector(bytes, control_data_);
-        serialize_vector(bytes, control_symbols_[0]);
-        serialize_vector(bytes, control_symbols_[1]);
-        serialize_vector(bytes, mimo_symbols_[0]);
-        serialize_vector(bytes, mimo_symbols_[1]);
+        // serialize_vector(bytes, coded_data_);
+        // serialize_vector(bytes, symbols_);
+        // serialize_vector(bytes, control_data_);
+        // serialize_vector(bytes, control_symbols_[0]);
+        // serialize_vector(bytes, control_symbols_[1]);
+        // serialize_vector(bytes, mimo_symbols_[0]);
+        // serialize_vector(bytes, mimo_symbols_[1]);
     }
 
-    MacPDU::MacPDU(vector<uint8_t> & bytes)
+    inline MacPDU::MacPDU(vector<uint8_t> & bytes)
     {
-        deserialize_vector(mimo_symbols_[1], bytes);
-        deserialize_vector(mimo_symbols_[0], bytes);
-        deserialize_vector(control_symbols_[1], bytes);
-        deserialize_vector(control_symbols_[0], bytes);
-        deserialize_vector(control_data_, bytes);
-        deserialize_vector(symbols_, bytes);
-        deserialize_vector(coded_data_, bytes);
+        // deserialize_vector(mimo_symbols_[1], bytes);
+        // deserialize_vector(mimo_symbols_[0], bytes);
+        // deserialize_vector(control_symbols_[1], bytes);
+        // deserialize_vector(control_symbols_[0], bytes);
+        // deserialize_vector(control_data_, bytes);
+        // deserialize_vector(symbols_, bytes);
+        // deserialize_vector(coded_data_, bytes);
         deserialize_vector(mac_data_, bytes);
         // non-vectors
         pop_bytes(rankIndicator_, bytes);
